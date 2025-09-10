@@ -85,14 +85,14 @@ export default function UserBrokerClient() {
         />
         <button
           onClick={handleCreateUser}
-          className="bg-green-600 text-white px-4 py-2 rounded"
+          className="bg-green-600 text-black px-4 py-2 rounded"
         >
           Create
         </button>
       </div>
 
       {/* Response display */}
-      <div className=" bg-gray-950 text-white p-4 rounded shadow">
+      <div className=" bg-gray-950 text-black p-4 rounded shadow">
         {loading && <p className="text-gray-600">Loading...</p>}
         {error && <p className="text-red-600">Error: {error}</p>}
         {response && (
