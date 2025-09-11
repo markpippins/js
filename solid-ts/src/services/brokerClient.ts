@@ -1,27 +1,48 @@
+const BASE_URL = "/api/broker/requestService";
+
+// Shared interfaces for the Service Broker API
+
 export interface ServiceRequest {
   service: string;
   operation: string;
   params: Record<string, unknown>;
+  requestId?: string;
 }
 
-export interface ServiceResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
+export interface ServiceResponse<T = unknown> {
+  ok: boolean;
+  data: T | null;
+  errors: Array<Record<string, unknown>>;
+  requestId?: string;
+  ts: string;
 }
 
 export async function callBroker<T>(
   service: string,
   operation: string,
   params: Record<string, unknown>
-): Promise<ServiceResponse<T>> {
-  const request: ServiceRequest = { service, operation, params };
+): Promise<ServiceResponse<T> | null> {
+  const request: ServiceRequest = {
+    service,
+    operation,
+    params,
+    requestId: "react-ui-" + Date.now(),
+  };
 
-  const res = await fetch("http://localhost:8080/api/broker/requestService", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(request),
-  });
+  try {
+    const res = await fetch(BASE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request),
+    });
 
-  return res.json();
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    return (await res.json()) as ServiceResponse<T>;
+  } catch (err) {
+    console.error("Broker call failed", err);
+    return null;
+  }
 }
