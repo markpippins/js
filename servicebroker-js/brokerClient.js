@@ -36,7 +36,7 @@ async function demoCreateUser(name, email) {
     });
     console.log("Create user response:", res);
   } catch (err) {
-    console.error("Error c+reating user:", err.message);
+    console.error("Error creating user:", err.message);
   }
 }
 
