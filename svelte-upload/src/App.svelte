@@ -1,12 +1,10 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
   import Counter from './lib/Counter.svelte'
-  import ServiceBrokerDemo from "./routes/ServiceBrokerDemo.svelte";
+  import FileUpload from "./routes/FileUpload.svelte";
 </script>
 
 <main>
-  <ServiceBrokerDemo />
+  <FileUpload />
 </main>
 
 <style>

@@ -22,7 +22,7 @@ export default function UserBrokerClient() {
     }
     setLoading(true);
     setError(null);
-    const res = await callBroker<User>("userService", "getById", {
+    const res = await callBroker<User>("solid", "userService", "getById", {
       id: Number(userId()),
     });
     setResponse(res);
@@ -36,7 +36,7 @@ export default function UserBrokerClient() {
     }
     setLoading(true);
     setError(null);
-    const res = await callBroker<User>("userService", "create", {
+    const res = await callBroker<User>("solid", "userService", "create", {
       user: { name: createName(), email: createEmail() },
     });
     setResponse(res);

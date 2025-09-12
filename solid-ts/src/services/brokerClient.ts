@@ -18,6 +18,7 @@ export interface ServiceResponse<T = unknown> {
 }
 
 export async function callBroker<T>(
+  client: string,
   service: string,
   operation: string,
   params: Record<string, unknown>
@@ -26,7 +27,7 @@ export async function callBroker<T>(
     service,
     operation,
     params,
-    requestId: "react-ui-" + Date.now(),
+    requestId: client + "-" + Date.now(),
   };
 
   try {
