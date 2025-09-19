@@ -1,0 +1,10 @@
+<p>reaction-container works!</p>
+<div class="row" style="padding-left: 0px; padding-top: 3px;">
+    <span *ngIf="!userHasReaction()" id='like' class="badge badge-primary" (click)=reactionClicked($event)><i class="fa fa-gittip"></i> Like</span>
+    <span *ngIf="userHasReaction()" id='unlike' class="badge badge-secondary" (click)=reactionClicked($event)>Unlike</span>
+    <span *ngIf="!userHasReaction()" id='love' class="badge badge-success" (click)=reactionClicked($event)><i class="fa fa-gittip"></i> Love</span>
+    <span *ngIf="!userHasReaction()" id='anger' class="badge badge-danger" (click)=reactionClicked($event)><i class="fa fa-gittip"></i> Angry</span>
+    <span *ngIf="!userHasReaction()" id='sadness' class="badge badge-secondary" (click)=reactionClicked($event)><i class="fa fa-gittip"></i> Sad</span>
+    <span *ngIf="!userHasReaction()" id='surprise' class="badge badge-warning" (click)=reactionClicked($event)><i class="fa fa-gittip"></i> Wow</span>
+    <span *ngIf="userHasReaction()"><a>{{ userReaction }}</a> </span>
+</div>
