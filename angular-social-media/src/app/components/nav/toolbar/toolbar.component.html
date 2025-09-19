@@ -1,0 +1,17 @@
+<nav class="navbar navbar-default fixed-top" style="background-color: cornflowerblue; padding-left: 2px;">
+    <div class="col-md-6">
+        <div class="d-flex flex-row" style="padding-left: 0px;">
+            <div *ngIf="user != undefined" style="padding-left: 0px; padding-right: 3px;">
+                <img class="rounded-circle" width="40" src={{user.avatarUrl}} alt="">
+            </div>
+            <a *ngIf="user && user.alias" [routerLink]=[(user.alias)] class=" navbar-brand " style="color:white "> {{user.alias}}</a>
+            <a *ngIf="user" [routerLink]="['posts']" class="navbar-brand " style="color:white ">Conversations</a>
+            <a *ngIf="user" [routerLink]="['forums']" class="navbar-brand " style="color:white ">Forums</a>
+        </div>
+    </div>
+    <div class="d-flex flex-row bd-highlight" style="padding-right: 2px;">
+        <a *ngIf="!user" [routerLink]="['/registration']" class="navbar-brand" style="color:white">Register</a>
+        <a *ngIf="!user" [routerLink]="['/login']" class="navbar-brand" style="color:white">Login</a>
+        <a *ngIf="user" [routerLink]="['/login']" class="navbar-brand" (click)="onLogoutClick()" style=" color:white ">Log Out</a>
+    </div>
+</nav>

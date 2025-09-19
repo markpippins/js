@@ -1,0 +1,23 @@
+<div *ngIf="postedBy" class="row align-items-center" style="padding: 3px; display: flex;">
+    <div class="col-9" style=" flex-grow: 1" style="padding-left: 0px;">
+        <img class="rounded-circle" width="25" src={{postedBy.avatarUrl}} alt="">
+        <a class="h6 m-0 " [routerLink]=" '/' + postedBy.alias "> {{postedBy.alias}}</a>
+    </div>
+    <div class="col" align=" right ">
+        <a *ngIf="post.reactions.length==1 " class="text-muted "> {{post.reactions.length}} Reaction </a>
+        <a *ngIf="post.reactions.length> 1" class="text-muted"> {{post.reactions.length}} Reactions </a>
+    </div>
+</div>
+<!-- <div>
+        <div class="dropdown">
+            <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-ellipsis-h"></i>
+          </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                <div class="h6 dropdown-header">Configuration</div>
+                <a class="dropdown-item" >Save</a>
+                <a class="dropdown-item" >Hide</a>
+                <a class="dropdown-item" >Report</a>
+            </div>
+        </div>
+    </div> -->

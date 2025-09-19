@@ -1,0 +1,18 @@
+<div class="col clean-style">
+    <app-comment-header [comment]=comment></app-comment-header>
+    <div class="" style="padding: 3px;">
+        <a>{{comment.text}}</a>
+    </div>
+    <app-comment-footer [comment]=comment [showCancelLink]="!hideCreatePost" (commentClickedEvent)="toggleCreatePost()"></app-comment-footer>
+    <div *ngIf="!hideCreatePost" class="pb-1 mb-1"></div>
+    <app-create-post *ngIf="!hideCreatePost" [prompt]="getPrompt()" (postEvent)="replyPosted($event) " (escapeEvent)="escapeClicked() "></app-create-post>
+</div>
+<div class="pb-1 mb-1"></div>
+<ul style="margin:0px; padding-left:5%;">
+    <li *ngFor="let child of comment.replies " style="list-style-type: none; ">
+        <app-comment-container *ngIf="child.parent && !child.parent.parent " [comment]=child></app-comment-container>
+    </li>
+</ul>
+<div *ngFor="let child of comment.replies " style="list-style-type: none; ">
+    <app-comment-container pp-comment-container *ngIf="child.parent && child.parent.parent " [comment]=child></app-comment-container>
+</div>

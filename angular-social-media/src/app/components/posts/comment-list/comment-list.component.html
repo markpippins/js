@@ -1,0 +1,7 @@
+<div class="col-md-12" style="padding-right: 0px;">
+    <!-- <a> {{replies.length}} replies</a> -->
+    <div *ngFor="let comment of getReplies()">
+        <div class="pb-1 mb-1 "></div>
+        <app-comment-container [comment]=comment></app-comment-container>
+    </div>
+</div>

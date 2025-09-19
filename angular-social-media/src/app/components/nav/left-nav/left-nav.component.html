@@ -1,0 +1,7 @@
+<div class="area-fill" style="background-color:lightgray; padding:5px;">
+    <app-user-dash *ngIf="isUserPage() && pageUserName" [pageUserName]=pageUserName></app-user-dash>
+    <app-user-info *ngIf="!isUserPage() && pageUserName" [pageUserName]=pageUserName></app-user-info>
+    <app-forum-info *ngIf="pageForumId" [pageForumId]=pageForumId></app-forum-info>
+    <app-convos-info *ngIf="isConversationsPage()"></app-convos-info>
+    <div class=" pb-1 mb-1 "></div>
+</div>
