@@ -1,0 +1,5 @@
+export const MOCK_OCR_TEXTS = [
+  `INVOICE\n\nTO: ACME Corporation\n123 Innovation Drive, Tech City, 12345\n\nINVOICE NO: INV-00123\nDATE: 2024-07-29\nDUE DATE: 2024-08-28\n\nDESCRIPTION\tQTY\tRATE\tAMOUNT\n--------------------------------------------------\nCloud Services Subscription\t1\t$499.99\t$499.99\nConsulting Hours\t10\t$150.00\t$1,500.00\n\nSUBTOTAL\t\t\t$1,999.99\nTAX (8.25%)\t\t\t$165.00\n--------------------------------------------------\nTOTAL\t\t\t\t$2,164.99`,
+  `RECEIPT\n\nBYTE & CRUNCH CAFE\n456 Data Lane, Silicon Valley, CA 94043\n(650) 555-1234\n\nOrder #42\nDate: 07/29/2024 12:34 PM\nServer: Ada L.\n\n1x Cortado\t\t$4.50\n1x Avocado Toast\t$12.75\n\nSubtotal\t\t$17.25\nSales Tax\t\t$1.42\n------------------------\nTotal\t\t\t$18.67\n\nTip: ______________\nTOTAL: ______________\n\nThank you for visiting!`,
+  `Elizabeth Chen\nSenior Software Engineer\n\nQuantumLeap Solutions\n789 Algorithm Ave, Suite 101\nFuture City, FC 67890\n\ne: e.chen@quantumleap.dev\np: 321-654-0987\nw: www.quantumleap.dev`,
+];

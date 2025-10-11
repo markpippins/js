@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-3 overflow-auto  ">
+        <app-left-nav [pageUserName]="pageUserName" [pageForumId]="pageForumId"></app-left-nav>
+    </div>
+    <div class="col-md-6 overflow-scroll" style="padding: 0px; margin: 0px;">
+        <!-- <app-user-page-header *ngIf=" user " [user]="user "></app-user-page-header> -->
+        <app-create-post [prompt]=" getPrompt() " (postEvent)="postAdded($event) "></app-create-post>
+        <app-post-list [posts]=posts></app-post-list>
+    </div>
+    <div class="col-md-3">
+        <app-right-nav></app-right-nav>
+    </div>
+</div>

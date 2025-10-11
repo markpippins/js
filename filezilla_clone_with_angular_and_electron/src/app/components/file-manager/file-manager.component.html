@@ -1,0 +1,187 @@
+<div class="file-manager">
+  <!-- Demo Notice -->
+  <div class="demo-notice" *ngIf="!electronService.isElectron">
+    <strong>Demo Mode:</strong> This is a web-based demonstration of the FileZilla clone. 
+    File operations are simulated with mock data. Download the desktop version for full functionality.
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button (click)="openConnectionDialog()" [disabled]="isConnected">Connect</button>
+    <button (click)="disconnect()" [disabled]="!isConnected">Disconnect</button>
+    <button (click)="uploadFiles()" [disabled]="!isConnected || selectedLocalFiles.size === 0">Upload</button>
+    <button (click)="downloadFiles()" [disabled]="!isConnected || selectedRemoteFiles.size === 0">Download</button>
+    <button (click)="loadLocalFiles()">Refresh Local</button>
+    <button (click)="loadRemoteFiles()" [disabled]="!isConnected">Refresh Remote</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Local Files Pane -->
+    <div class="pane">
+      <div class="pane-header">Local Site</div>
+      <div class="path-bar">
+        <button (click)="selectLocalDirectory()">📁</button>
+        <input 
+          type="text" 
+          class="path-input" 
+          [(ngModel)]="localPath" 
+          (keyup.enter)="loadLocalFiles()"
+        >
+      </div>
+      <div class="file-list">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Modified</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="localPath !== '/'" (dblclick)="navigateLocal('..')">
+              <td>📁 ..</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr 
+              *ngFor="let file of localFiles" 
+              [class.selected]="selectedLocalFiles.has(file.name)"
+              (click)="toggleLocalSelection(file.name)"
+              (dblclick)="file.isDirectory ? navigateLocal(file.name) : null"
+            >
+              <td>
+                <span class="file-icon">{{ file.isDirectory ? '📁' : '📄' }}</span>
+                {{ file.name }}
+              </td>
+              <td>{{ file.isDirectory ? '' : formatFileSize(file.size) }}</td>
+              <td>{{ formatDate(file.modified) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Remote Files Pane -->
+    <div class="pane">
+      <div class="pane-header">Remote Site</div>
+      <div class="path-bar">
+        <input 
+          type="text" 
+          class="path-input" 
+          [(ngModel)]="remotePath" 
+          (keyup.enter)="loadRemoteFiles()"
+          [disabled]="!isConnected"
+        >
+      </div>
+      <div class="file-list">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Modified</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="!isConnected">
+              <td colspan="3" style="text-align: center; color: #999;">Not connected</td>
+            </tr>
+            <tr *ngIf="isConnected && remotePath !== '/'" (dblclick)="navigateRemote('..')">
+              <td>📁 ..</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr 
+              *ngFor="let file of remoteFiles" 
+              [class.selected]="selectedRemoteFiles.has(file.name)"
+              (click)="toggleRemoteSelection(file.name)"
+              (dblclick)="file.isDirectory ? navigateRemote(file.name) : null"
+            >
+              <td>
+                <span class="file-icon">{{ file.isDirectory ? '📁' : '📄' }}</span>
+                {{ file.name }}
+              </td>
+              <td>{{ file.isDirectory ? '' : formatFileSize(file.size) }}</td>
+              <td>{{ formatDate(file.modified) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transfer Queue -->
+  <div class="transfer-queue">
+    <div style="padding: 8px 12px; background: #f8f8f8; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 12px;">
+      Transfer Queue
+      <button 
+        style="float: right; font-size: 10px; padding: 2px 6px;" 
+        (click)="clearTransferQueue()"
+      >
+        Clear Completed
+      </button>
+    </div>
+    <div *ngFor="let transfer of transferQueue" class="transfer-item" [ngClass]="transfer.status">
+      <div>
+        {{ transfer.type === 'upload' ? '↑' : '↓' }} 
+        {{ transfer.localPath }} 
+        {{ transfer.type === 'upload' ? '→' : '←' }} 
+        {{ transfer.remotePath }}
+      </div>
+      <div *ngIf="transfer.status === 'active'" class="progress-bar">
+        <div class="progress-fill" [style.width.%]="transfer.progress"></div>
+      </div>
+      <div *ngIf="transfer.status === 'error'" style="color: red; font-size: 10px;">
+        Error: {{ transfer.error }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>{{ statusMessage }}</span>
+    <span *ngIf="isConnected">
+      Connected to {{ connectionConfig.host }} ({{ connectionConfig.protocol.toUpperCase() }})
+    </span>
+  </div>
+
+  <!-- Connection Dialog -->
+  <div *ngIf="showConnectionDialog" class="overlay" (click)="closeConnectionDialog()"></div>
+  <div *ngIf="showConnectionDialog" class="connection-dialog">
+    <h3>Connect to Server</h3>
+    
+    <div class="form-group">
+      <label>Protocol:</label>
+      <select [(ngModel)]="connectionConfig.protocol">
+        <option value="ftp">FTP</option>
+        <option value="sftp">SFTP</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Host:</label>
+      <input type="text" [(ngModel)]="connectionConfig.host" placeholder="ftp.example.com">
+    </div>
+
+    <div class="form-group">
+      <label>Port:</label>
+      <input type="number" [(ngModel)]="connectionConfig.port">
+    </div>
+
+    <div class="form-group">
+      <label>Username:</label>
+      <input type="text" [(ngModel)]="connectionConfig.username">
+    </div>
+
+    <div class="form-group">
+      <label>Password:</label>
+      <input type="password" [(ngModel)]="connectionConfig.password">
+    </div>
+
+    <div class="dialog-buttons">
+      <button (click)="closeConnectionDialog()">Cancel</button>
+      <button class="primary" (click)="connect()">Connect</button>
+    </div>
+  </div>
+</div>

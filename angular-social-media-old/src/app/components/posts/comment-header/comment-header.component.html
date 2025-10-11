@@ -1,0 +1,13 @@
+<div *ngIf="postedBy && postedTo" class="row align-items-center" style="padding: 3px; display: flex;">
+    <div class="col-9" style=" flex-grow: 1" style="padding-left: 0px;">
+        <img class="rounded-circle" width="25" src={{postedBy.avatarUrl}} alt="">
+        <a class="h6 m-0 " [routerLink]=" '/' + postedBy.alias "> {{postedBy.alias}}</a>
+        <i class="fa fa-comment-o " style="padding-left: 5px; ; padding-right: 5px; "></i>
+        <img class="rounded-circle " width="25 " src={{postedTo.avatarUrl}} alt=" ">
+        <a class="h6 m-0 " [routerLink]=" '/' + postedTo.alias "> {{postedTo.alias}} </a>
+    </div>
+    <div class="col" align=" right ">
+        <a *ngIf="comment.reactions.length==1 " class="text-muted "> {{comment.reactions.length}} Reaction </a>
+        <a *ngIf="comment.reactions.length> 1" class="text-muted"> {{comment.reactions.length}} Reactions </a>
+    </div>
+</div>
