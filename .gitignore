@@ -52,3 +52,10 @@ solid-ts-breezeblocks/.modified
 .gitignore
 analog-social/public/.gitkeep
 .gitignore
+filezilla_clone_with_angular_and_electron/src/assets/.gitkeep
+analog-social/.editorconfig
+solid/templates/.github/dependabot.yml
+electron-ts/dist-electron/preload.mjs
+solid/templates/.husky/pre-commit
+slack-like_chat_application/.cursor/rules/convex_rules.mdc
+ripple-app/.prettierignore
