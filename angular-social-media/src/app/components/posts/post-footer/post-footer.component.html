@@ -1,0 +1,20 @@
+<div class="row" style="display: flex;">
+    <div class="col-9" style=" flex-grow: 1" style="padding-left: 0px;">
+        <div *ngIf="!userReaction" id='like' class="badge badge-primary " style="margin-right: 2px;" (click)=reactionClicked($event)><i class=" fa fa-gittip "></i> Like</div>
+        <div *ngIf="!userReaction " id='love' class="badge badge-success " style="margin-right: 2px;" (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Love</div>
+        <div *ngIf="!userReaction " id='anger' class="badge badge-danger " style="margin-right: 2px;" (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Angry</div>
+        <div *ngIf="!userReaction " id='sadness' class="badge badge-secondary " style="margin-right: 2px;" (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Sad</div>
+        <div *ngIf="!userReaction " id='surprise' class=" badge badge-warning " style="margin-right: 2px;" (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Wow</div>
+        <div class="col " *ngIf="userReaction " [ngSwitch]=userReaction.type>
+            <span *ngSwitchCase=" 'LIKE' " class=" badge badge-primary " (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Unlike</span>
+            <span *ngSwitchCase=" 'LOVE' " class="badge badge-success " (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Unlove</span>
+            <span *ngSwitchCase=" 'ANGER' " class="badge badge-danger " (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Unangry</span>
+            <span *ngSwitchCase=" 'SADNESS' " class="badge badge-secondary " (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Unsad</span>
+            <span *ngSwitchCase=" 'SURPRISE' " class="badge badge-warning " (click)=reactionClicked($event)><i class="fa fa-gittip "></i> Unwow</span>
+        </div>
+    </div>
+    <div class="col" align="right " style="padding-top: 3px; ">
+        <span *ngIf=" !showCancelLink " id="comment " class="badge badge-info pull-right " style="margin-left:2px; " (click)=commentClicked($event)><i class="fa fa-comment "></i> Comment</span>
+        <span *ngIf="showCancelLink " id="comment-disabled " class="badge badge-primary pull-right " style="margin-left:2px; " (click)=commentClicked($event)> Cancel</span>
+    </div>
+</div>
